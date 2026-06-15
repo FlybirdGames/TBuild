@@ -1,0 +1,33 @@
+@echo off
+setlocal
+
+set "BUILD_TYPE=%BUILD_TYPE%"
+if "%BUILD_TYPE%"=="" set "BUILD_TYPE=Release"
+
+set "GENERATOR=%GENERATOR%"
+if "%GENERATOR%"=="" set "GENERATOR=Ninja"
+
+set "VCPKG_TRIPLET=%VCPKG_TARGET_TRIPLET%"
+if "%VCPKG_TRIPLET%"=="" set "VCPKG_TRIPLET=x64-windows"
+
+set "BUILD_DIR=%BUILD_DIR%"
+if "%BUILD_DIR%"=="" set "BUILD_DIR=out\build\ninja-vcpkg-%VCPKG_TRIPLET%-%BUILD_TYPE%"
+
+pushd "%~dp0.."
+if errorlevel 1 exit /b 1
+
+set "CONFIGURE_ARGS=-S . -B %BUILD_DIR% -G %GENERATOR% -DCMAKE_BUILD_TYPE=%BUILD_TYPE%"
+if not "%TKB_VCPKG_ROOT%"=="" set "CONFIGURE_ARGS=%CONFIGURE_ARGS% -DTKB_VCPKG_ROOT=%TKB_VCPKG_ROOT%"
+if "%TKB_VCPKG_ROOT%"=="" if not "%VCPKG_ROOT%"=="" set "CONFIGURE_ARGS=%CONFIGURE_ARGS% -DTKB_VCPKG_ROOT=%VCPKG_ROOT%"
+if not "%VCPKG_TRIPLET%"=="" set "CONFIGURE_ARGS=%CONFIGURE_ARGS% -DVCPKG_TARGET_TRIPLET=%VCPKG_TRIPLET%"
+
+cmake %CONFIGURE_ARGS%
+if errorlevel 1 (
+    popd
+    exit /b 1
+)
+
+cmake --build "%BUILD_DIR%" --config "%BUILD_TYPE%"
+set "RESULT=%ERRORLEVEL%"
+popd
+exit /b %RESULT%

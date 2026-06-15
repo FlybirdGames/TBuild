@@ -1,0 +1,20 @@
+{
+  "name": "toolkit-build",
+  "version-string": "0.1.0",
+  "dependencies": [
+    "lua",
+    "sol2",
+    "cli11",
+    "fmt",
+    "spdlog",
+    "nlohmann-json",
+    "tomlplusplus",
+    "pugixml",
+    "libgit2",
+    "curl",
+    "xxhash",
+    "zstd",
+    "libarchive",
+    "gtest"
+  ]
+}

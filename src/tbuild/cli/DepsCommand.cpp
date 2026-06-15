@@ -1,0 +1,43 @@
+/*
+ * @Author: cubevlmu khfahqp@gmail.com
+ * @LastEditors: cubevlmu khfahqp@gmail.com
+ * Copyright (c) 2026 by FlybirdGames, All Rights Reserved. 
+ */
+
+#include "tbuild/cli/Commands.hpp"
+
+#include "tbuild/core/Logger.hpp"
+
+#include <filesystem>
+#include <string>
+
+namespace toolkit
+{
+    int Commands::deps(const std::filesystem::path &workspaceRoot)
+    {
+        ConsoleDiagnosticSink diagnostics;
+        BuildModel model;
+        if (!CliWorkspace::load(workspaceRoot, model, diagnostics))
+        {
+            return 1;
+        }
+
+        if (model.rootPackage.dependencies.empty())
+        {
+            LogInfo("dependencies: none");
+            return 0;
+        }
+
+        for (const auto &dependency : model.rootPackage.dependencies)
+        {
+            LogInfo("{} {} ref={} subdir={} build={}", dependency.sourceType,
+                    dependency.name,
+                    dependency.ref.empty() ? "-" : dependency.ref,
+                    dependency.subdir,
+                    dependency.buildType);
+        }
+        return 0;
+    }
+
+
+} // namespace toolkit

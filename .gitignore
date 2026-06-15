@@ -1,0 +1,19 @@
+# Local dependency/cache state
+.tbuild/
+tbuild.lock.toml
+
+# Build output
+build/
+out/
+cmake-build-*/
+
+# Editor/runtime state
+.vscode/
+.idea/
+.codegraph/
+.clangd
+compile_commands.json
+
+# Local references and generated packages
+references/
+*.zip
