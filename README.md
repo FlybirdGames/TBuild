@@ -1,12 +1,12 @@
-# ToolkitBuild
+# Toolkit Package Manager
 
-ToolkitBuild is a cross-platform C/C++ dependency management system designed to serve CMake projects.
+Toolkit Package Manager is a cross-platform C/C++ dependency management system designed to serve CMake projects.
 
 It is **not** a replacement for CMake, Ninja, Visual Studio, Xcode, or any native build backend. Its job is to restore source, archive, local, or prebuilt dependencies; build dependency artifacts when needed; write a lock file for reproducibility; and generate CMake integration files that your normal CMake project can consume.
 
 ## Project status
 
-ToolkitBuild is under active development.
+Toolkit Package Manager is under active development.
 
 Current validation scope:
 
@@ -20,26 +20,26 @@ Current validation scope:
 
 ```bash
 # Check the local environment
-tbuild doctor
+tpkg doctor
 
 # Detect local C/C++ and platform toolchains
-tbuild sdk detect
-tbuild sdk list
+tpkg sdk detect
+tpkg sdk list
 
 # Restore dependency sources and artifacts
-tbuild restore --config debug --toolchain windows-msvc-x64
+tpkg restore --config debug --toolchain windows-msvc-x64
 
 # Generate CMake integration files
-tbuild generate --config debug --toolchain windows-msvc-x64
+tpkg generate --config debug --toolchain windows-msvc-x64
 ```
 
 A normal project keeps using CMake:
 
 ```cmake
-include("${CMAKE_SOURCE_DIR}/.tbuild/generated/cmake/tbuild_deps.cmake")
+include("${CMAKE_SOURCE_DIR}/.tpkg/generated/cmake/tpkg_deps.cmake")
 ```
 
-## Minimal `tbuild.deps.lua`
+## Minimal `tpkg.deps.lua`
 
 ```lua
 package("ExampleApp")
@@ -80,7 +80,7 @@ Start here:
 ## Repository layout
 
 ```text
-src/tbuild/        ToolkitBuild implementation
+src/tpkg/          Toolkit Package Manager implementation
 cmake/             CMake project glue
 docs/              User, reference, architecture, and contributor docs
 examples/          Example dependency manifests and project layouts

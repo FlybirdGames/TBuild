@@ -1,26 +1,26 @@
 # Lockfile
 
-`tbuild.lock.toml` records resolved dependency state.
+`tpkg.lock.toml` records resolved dependency state.
 
 ## Commit policy
 
-Commit `tbuild.lock.toml` for applications and projects that need reproducible dependency restore.
+Commit `tpkg.lock.toml` for applications and projects that need reproducible dependency restore.
 
 ## Locked restore
 
 ```bash
-tbuild restore --locked
+tpkg restore --locked
 ```
 
 A locked restore should use existing lock entries and should not update the lockfile.
 
 ## Update policy
 
-Use `tbuild update` when intentionally changing lock state.
+Use `tpkg update` when intentionally changing lock state.
 
 ```bash
-tbuild update fmt
-tbuild restore fmt
+tpkg update fmt
+tpkg restore fmt
 ```
 
 ## Do not hand-edit by default

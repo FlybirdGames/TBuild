@@ -1,6 +1,6 @@
 # Source types
 
-ToolkitBuild can restore dependencies from Git, archives, and local paths.
+Toolkit Package Manager can restore dependencies from Git, archives, and local paths.
 
 ## Git source
 

@@ -3,31 +3,31 @@
 ## Global options
 
 ```bash
-tbuild [--root <path>] <command> [options]
+tpkg [--root <path>] <command> [options]
 ```
 
 | Option | Meaning |
 | --- | --- |
-| `--root <path>` | Workspace root containing `tbuild.deps.lua` |
+| `--root <path>` | Workspace root containing `tpkg.lua` |
 | `--help` | Show help |
 
 ## `doctor`
 
-Check the local ToolkitBuild runtime.
+Check the local Toolkit Package Manager runtime.
 
 ```bash
-tbuild doctor
-tbuild doctor --sdk
+tpkg doctor
+tpkg doctor --sdk
 ```
 
 `--sdk` prints detailed SDK and toolchain diagnostics.
 
 ## `load`
 
-Load and validate `tbuild.deps.lua`.
+Load and validate `tpkg.lua`.
 
 ```bash
-tbuild load
+tpkg load
 ```
 
 Use this before restore when checking DSL syntax and model validation.
@@ -37,7 +37,7 @@ Use this before restore when checking DSL syntax and model validation.
 Print the loaded dependency model as JSON.
 
 ```bash
-tbuild dump-model
+tpkg dump-model
 ```
 
 ## `deps`
@@ -45,7 +45,7 @@ tbuild dump-model
 Print dependencies declared in the manifest.
 
 ```bash
-tbuild deps
+tpkg deps
 ```
 
 ## `generate`
@@ -53,14 +53,14 @@ tbuild deps
 Generate CMake dependency integration files.
 
 ```bash
-tbuild generate [options]
+tpkg generate [options]
 ```
 
 | Option | Meaning |
 | --- | --- |
 | `--toolchain <id>` | Preferred local toolchain profile ID |
 | `--config <debug|release>` | Build config |
-| `--output <dir>` | Output directory; default `.tbuild/generated/cmake` |
+| `--output <dir>` | Output directory; default `.tpkg/generated/cmake` |
 | `--override <name=path>` | Override dependency source |
 
 ## `restore`
@@ -68,7 +68,7 @@ tbuild generate [options]
 Prepare package cache, build/export dependency artifacts, and update lock state.
 
 ```bash
-tbuild restore [package] [options]
+tpkg restore [package] [options]
 ```
 
 | Option | Meaning |
@@ -87,7 +87,7 @@ tbuild restore [package] [options]
 Update package lock entries.
 
 ```bash
-tbuild update [package] [options]
+tpkg update [package] [options]
 ```
 
 | Option | Meaning |
@@ -103,8 +103,8 @@ tbuild update [package] [options]
 Print restored package cache and artifact status.
 
 ```bash
-tbuild packages
-tbuild packages --verbose
+tpkg packages
+tpkg packages --verbose
 ```
 
 | Option | Meaning |
@@ -117,7 +117,7 @@ tbuild packages --verbose
 Garbage collect unreferenced package caches.
 
 ```bash
-tbuild packages gc [options]
+tpkg packages gc [options]
 ```
 
 | Option | Meaning |
@@ -134,7 +134,7 @@ tbuild packages gc [options]
 Display dependency tree.
 
 ```bash
-tbuild tree
+tpkg tree
 ```
 
 ## `clean`
@@ -142,26 +142,26 @@ tbuild tree
 Clean dependency cache and generated integration files.
 
 ```bash
-tbuild clean [package] [options]
+tpkg clean [package] [options]
 ```
 
 | Option | Meaning |
 | --- | --- |
 | `package` | Optional dependency to clean |
-| `--all` | Remove the whole `.tbuild` directory |
-| `--artifacts` | Remove `.tbuild/artifacts` |
-| `--sources` | Remove `.tbuild/packages` source cache |
-| `--lock` | Remove `tbuild.lock.toml` |
+| `--all` | Remove the whole `.tpkg` directory |
+| `--artifacts` | Remove `.tpkg/artifacts` |
+| `--sources` | Remove `.tpkg/packages` source cache |
+| `--lock` | Remove `tpkg.lock.toml` |
 
 ## `override`
 
 Manage local dependency overrides.
 
 ```bash
-tbuild override list
-tbuild override set <name> <path>
-tbuild override remove <name>
-tbuild override clear
+tpkg override list
+tpkg override set <name> <path>
+tpkg override remove <name>
+tpkg override clear
 ```
 
 ## `sdk`
@@ -171,27 +171,27 @@ Detect and inspect local SDK/toolchains.
 ### `sdk detect`
 
 ```bash
-tbuild sdk detect
+tpkg sdk detect
 ```
 
-Detect SDK/toolchains and write `.tbuild/toolchains/host.toml`.
+Detect SDK/toolchains and write `.tpkg/toolchains/host.toml`.
 
 ### `sdk list`
 
 ```bash
-tbuild sdk list [--refresh] [--source auto|project-user|workspace|global-user]
+tpkg sdk list [--refresh] [--source auto|project-user|workspace|global-user]
 ```
 
 ### `sdk show`
 
 ```bash
-tbuild sdk show <id>
+tpkg sdk show <id>
 ```
 
 ### `sdk add`
 
 ```bash
-tbuild sdk add <id> [options]
+tpkg sdk add <id> [options]
 ```
 
 Common options:
@@ -234,14 +234,14 @@ Common options:
 ### `sdk remove`
 
 ```bash
-tbuild sdk remove <id> [--source project-user|global-user]
+tpkg sdk remove <id> [--source project-user|global-user]
 ```
 
 ### Other SDK commands
 
 ```bash
-tbuild sdk doctor
-tbuild sdk dump
-tbuild sdk select <id>
-tbuild sdk clear
+tpkg sdk doctor
+tpkg sdk dump
+tpkg sdk select <id>
+tpkg sdk clear
 ```

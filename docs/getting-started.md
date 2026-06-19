@@ -1,11 +1,11 @@
 # Getting started
 
-This guide creates a minimal CMake project that restores dependencies through ToolkitBuild.
+This guide creates a minimal CMake project that restores dependencies through Toolkit Package Manager.
 
-## 1. Create `tbuild.deps.lua`
+## 1. Create `tpkg.lua`
 
 ```lua
-package("HelloTBuild")
+package("HelloTPKG")
 version("0.1.0")
 default_config("debug")
 default_platform("host")
@@ -31,8 +31,8 @@ require("fmt", {
 ## 2. Detect toolchains
 
 ```bash
-tbuild sdk detect
-tbuild sdk list
+tpkg sdk detect
+tpkg sdk list
 ```
 
 Choose a profile ID shown by `sdk list`, for example `windows-msvc-x64`.
@@ -40,30 +40,30 @@ Choose a profile ID shown by `sdk list`, for example `windows-msvc-x64`.
 ## 3. Restore dependencies
 
 ```bash
-tbuild restore --config debug --toolchain windows-msvc-x64
+tpkg restore --config debug --toolchain windows-msvc-x64
 ```
 
-This reads `tbuild.deps.lua`, fetches dependency sources, builds dependencies if needed, writes or updates `tbuild.lock.toml`, and stores artifacts under `.tbuild/`.
+This reads `tpkg.lua`, fetches dependency sources, builds dependencies if needed, writes or updates `tpkg.lock.toml`, and stores artifacts under `.tpkg/`.
 
 ## 4. Generate CMake integration
 
 ```bash
-tbuild generate --config debug --toolchain windows-msvc-x64
+tpkg generate --config debug --toolchain windows-msvc-x64
 ```
 
 The default output is:
 
 ```text
-.tbuild/generated/cmake/
+.tpkg/generated/cmake/
 ```
 
 ## 5. Consume from CMake
 
 ```cmake
 cmake_minimum_required(VERSION 3.25)
-project(HelloTBuild LANGUAGES CXX)
+project(HelloTPKG LANGUAGES CXX)
 
-include("${CMAKE_SOURCE_DIR}/.tbuild/generated/cmake/tbuild_deps.cmake")
+include("${CMAKE_SOURCE_DIR}/.tpkg/generated/cmake/tpkg_deps.cmake")
 
 add_executable(hello src/main.cpp)
 target_link_libraries(hello PRIVATE fmt)
@@ -74,15 +74,15 @@ target_link_libraries(hello PRIVATE fmt)
 Commit:
 
 ```text
-tbuild.deps.lua
-tbuild.lock.toml
+tpkg.lua
+tpkg.lock.toml
 CMakeLists.txt
 ```
 
 Do not commit:
 
 ```text
-.tbuild/
+.tpkg/
 ```
 
 ## Next steps

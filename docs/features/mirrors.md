@@ -1,10 +1,10 @@
 # Mirror Support
 
-ToolkitBuild supports fallback mirrors for both Git and Archive sources, improving reliability when the primary source is unavailable.
+Toolkit Package Manager supports fallback mirrors for both Git and Archive sources, improving reliability when the primary source is unavailable.
 
 ## Overview
 
-When a source fails to download, ToolkitBuild automatically tries mirrors in the order specified. This is useful for:
+When a source fails to download, Toolkit Package Manager automatically tries mirrors in the order specified. This is useful for:
 - Handling temporary network issues
 - Working around geo-restrictions
 - Providing backup sources for critical dependencies
@@ -42,7 +42,7 @@ require("zlib", {
 
 ### Retry Logic
 
-1. **Primary source**: ToolkitBuild first attempts the main `source`
+1. **Primary source**: Toolkit Package Manager first attempts the main `source`
 2. **Mirror fallback**: If the primary fails, it tries each mirror in order
 3. **Cleanup**: Failed partial downloads are removed before trying the next source
 4. **Verification**: For archives, SHA256 is verified regardless of which source succeeded
@@ -82,7 +82,7 @@ sha256 = "abc123...",  -- Protects against tampering
 
 ### 3. Order Mirrors by Priority
 
-List mirrors in order of preference. ToolkitBuild tries them sequentially:
+List mirrors in order of preference. Toolkit Package Manager tries them sequentially:
 
 ```lua
 mirrors = {
@@ -182,7 +182,7 @@ When a source fails:
 
 ## Comparison with Other Tools
 
-| Feature | ToolkitBuild | vcpkg | Conan |
+| Feature | Toolkit Package Manager | vcpkg | Conan |
 |---------|--------------|-------|-------|
 | Git mirrors | ✅ | ❌ | ✅ |
 | Archive mirrors | ✅ | ❌ | ✅ |

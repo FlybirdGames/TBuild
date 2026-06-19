@@ -38,8 +38,8 @@ require("fmt", {
 ## Dependency with local override
 
 ```bash
-tbuild override set fmt ../fmt-fork
-tbuild restore fmt
+tpkg override set fmt ../fmt-fork
+tpkg restore fmt
 ```
 
 ## Transitive dependency

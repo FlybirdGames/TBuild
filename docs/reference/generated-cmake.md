@@ -1,11 +1,11 @@
 # Generated CMake
 
-`tbuild generate` writes CMake integration files for restored dependency artifacts.
+`tpkg generate` writes CMake integration files for restored dependency artifacts.
 
 ## Default output
 
 ```text
-.tbuild/generated/cmake/
+.tpkg/generated/cmake/
 ```
 
 ## Include policy
@@ -13,7 +13,7 @@
 Include generated files from your root `CMakeLists.txt` after restore and generate.
 
 ```cmake
-include("${CMAKE_SOURCE_DIR}/.tbuild/generated/cmake/tbuild_deps.cmake")
+include("${CMAKE_SOURCE_DIR}/.tpkg/generated/cmake/tpkg_deps.cmake")
 ```
 
 ## Regeneration

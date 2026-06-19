@@ -1,9 +1,14 @@
+<!--
+ * @Author: cubevlmu khfahqp@gmail.com
+ * @LastEditors: cubevlmu khfahqp@gmail.com
+ * Copyright (c) 2026 by FlybirdGames, All Rights Reserved. 
+-->
 # Cache layout
 
-ToolkitBuild uses `.tbuild/` for local generated state.
+Toolkit Package Manager uses `.tpkg/` for local generated state.
 
 ```text
-.tbuild/
+.tpkg/
   packages/          dependency source cache
   build-packages/    dependency build workspaces
   artifacts/         exported artifacts

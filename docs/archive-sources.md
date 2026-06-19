@@ -1,6 +1,6 @@
 # Archive Sources
 
-ToolkitBuild supports fetching dependencies from archive files (`.tar.gz`, `.tar.bz2`, `.zip`, etc.) in addition to Git repositories.
+Toolkit Package Manager supports fetching dependencies from archive files (`.tar.gz`, `.tar.bz2`, `.zip`, etc.) in addition to Git repositories.
 
 ## Basic Usage
 
@@ -85,7 +85,7 @@ require("mylib", {
 })
 ```
 
-ToolkitBuild will try each URL in order until one succeeds.
+Toolkit Package Manager will try each URL in order until one succeeds.
 
 ## Git vs Archive
 

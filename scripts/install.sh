@@ -2,7 +2,7 @@
 set -euo pipefail
 
 build_type="${BUILD_TYPE:-Release}"
-install_prefix="${INSTALL_PREFIX:-out/install/tbuild}"
+install_prefix="${INSTALL_PREFIX:-out/install/tpkg}"
 vcpkg_triplet="${VCPKG_TARGET_TRIPLET:-x64-windows}"
 build_dir="${BUILD_DIR:-out/build/ninja-vcpkg-$vcpkg_triplet-$build_type}"
 

@@ -1,11 +1,11 @@
 # Troubleshooting
 
-## `tbuild.deps.lua` cannot be found
+## `tpkg.lua` cannot be found
 
 Run commands from the workspace root or pass `--root <path>`.
 
 ```bash
-tbuild restore --root path/to/project
+tpkg restore --root path/to/project
 ```
 
 ## No toolchain profile is available
@@ -13,24 +13,24 @@ tbuild restore --root path/to/project
 Run:
 
 ```bash
-tbuild sdk detect
-tbuild sdk list
+tpkg sdk detect
+tpkg sdk list
 ```
 
-If detection does not find the expected SDK, register a profile manually with `tbuild sdk add`.
+If detection does not find the expected SDK, register a profile manually with `tpkg sdk add`.
 
 ## Dependency restore uses the wrong compiler
 
 Pass an explicit toolchain profile:
 
 ```bash
-tbuild restore --toolchain windows-msvc-x64
+tpkg restore --toolchain windows-msvc-x64
 ```
 
 To save a local preference:
 
 ```bash
-tbuild sdk select windows-msvc-x64
+tpkg sdk select windows-msvc-x64
 ```
 
 ## A dependency builds but CMake cannot link it
@@ -45,8 +45,8 @@ Check the dependency `artifacts` declaration. At minimum, verify:
 Then rerun:
 
 ```bash
-tbuild restore --export-only <package>
-tbuild generate
+tpkg restore --export-only <package>
+tpkg generate
 ```
 
 ## A package cache is stale
@@ -54,13 +54,13 @@ tbuild generate
 Use targeted clean first:
 
 ```bash
-tbuild clean <package> --artifacts --sources
+tpkg clean <package> --artifacts --sources
 ```
 
 Use full clean only when necessary:
 
 ```bash
-tbuild clean --all
+tpkg clean --all
 ```
 
 ## Lockfile mismatch
@@ -68,12 +68,12 @@ tbuild clean --all
 If you want exact reproducibility, use:
 
 ```bash
-tbuild restore --locked
+tpkg restore --locked
 ```
 
 If you intentionally want a new resolved commit or source state, use:
 
 ```bash
-tbuild update <package>
-tbuild restore
+tpkg update <package>
+tpkg restore
 ```

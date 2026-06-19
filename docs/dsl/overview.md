@@ -1,6 +1,11 @@
+<!--
+ * @Author: cubevlmu khfahqp@gmail.com
+ * @LastEditors: cubevlmu khfahqp@gmail.com
+ * Copyright (c) 2026 by FlybirdGames, All Rights Reserved. 
+-->
 # DSL overview
 
-`tbuild.deps.lua` is the dependency manifest for a ToolkitBuild workspace.
+`tpkg.lua` is the dependency manifest for a Toolkit Package Manager workspace.
 
 The DSL is Lua-based. Treat the manifest as trusted project code.
 
@@ -33,4 +38,4 @@ require("fmt", {
 
 ## Evaluation model
 
-ToolkitBuild loads the manifest, builds an in-memory dependency model, validates it, resolves sources, restores artifacts, and then generates CMake integration files.
+Toolkit Package Manager loads the manifest, builds an in-memory dependency model, validates it, resolves sources, restores artifacts, and then generates CMake integration files.

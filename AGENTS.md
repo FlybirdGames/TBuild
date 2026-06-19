@@ -12,4 +12,4 @@ Hard rules:
 - Preserve lockfile format.
 - Preserve artifact ID generation.
 - Preserve cache layout.
-- Keep ToolkitBuild scoped as a dependency manager for CMake projects.
+- Keep Toolkit Package Manager scoped as a dependency manager for CMake projects.

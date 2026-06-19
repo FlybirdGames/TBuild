@@ -1,6 +1,6 @@
 # Local dependency/cache state
-.tbuild/
-tbuild.lock.toml
+.tpkg/
+tpkg.lock.toml
 
 # Build output
 build/

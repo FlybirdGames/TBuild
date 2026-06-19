@@ -1,6 +1,11 @@
+<!--
+ * @Author: cubevlmu khfahqp@gmail.com
+ * @LastEditors: cubevlmu khfahqp@gmail.com
+ * Copyright (c) 2026 by FlybirdGames, All Rights Reserved. 
+-->
 # Exit codes
 
-ToolkitBuild currently uses a simple exit-code policy.
+Toolkit Package Manager currently uses a simple exit-code policy.
 
 | Code | Meaning |
 | --- | --- |

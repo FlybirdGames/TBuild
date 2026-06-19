@@ -5,21 +5,21 @@
 ## Update one package
 
 ```bash
-tbuild update fmt
-tbuild restore fmt
+tpkg update fmt
+tpkg restore fmt
 ```
 
 ## Update all packages
 
 ```bash
-tbuild update --all
-tbuild restore
+tpkg update --all
+tpkg restore
 ```
 
 ## With toolchain and config
 
 ```bash
-tbuild update fmt --config release --toolchain windows-msvc-x64
+tpkg update fmt --config release --toolchain windows-msvc-x64
 ```
 
 ## Policy

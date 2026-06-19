@@ -5,32 +5,32 @@ A toolchain profile describes the local compiler, linker, SDK, and helper tools 
 ## Detect profiles
 
 ```bash
-tbuild sdk detect
-tbuild sdk list
+tpkg sdk detect
+tpkg sdk list
 ```
 
 ## Show a profile
 
 ```bash
-tbuild sdk show windows-msvc-x64
+tpkg sdk show windows-msvc-x64
 ```
 
 ## Save a preferred profile
 
 ```bash
-tbuild sdk select windows-msvc-x64
+tpkg sdk select windows-msvc-x64
 ```
 
 Clear it with:
 
 ```bash
-tbuild sdk clear
+tpkg sdk clear
 ```
 
 ## Register a profile manually
 
 ```bash
-tbuild sdk add android-arm64 \
+tpkg sdk add android-arm64 \
   --platform android \
   --compiler-kind clang \
   --target-arch arm64 \
@@ -46,8 +46,8 @@ Use `--force` to replace an existing profile with the same ID.
 ## Diagnostics
 
 ```bash
-tbuild sdk doctor
-tbuild doctor --sdk
+tpkg sdk doctor
+tpkg doctor --sdk
 ```
 
 Use diagnostics when a package build cannot find a compiler, CMake, Ninja, Git, Android SDK, NDK, JDK, or system library path.

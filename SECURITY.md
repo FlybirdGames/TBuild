@@ -1,6 +1,6 @@
 # Security Policy
 
-ToolkitBuild downloads, unpacks, patches, builds, and exposes third-party dependency artifacts. Treat dependency manifests and lock files as security-sensitive project inputs.
+Toolkit Package Manager downloads, unpacks, patches, builds, and exposes third-party dependency artifacts. Treat dependency manifests and lock files as security-sensitive project inputs.
 
 ## Supported versions
 
@@ -13,7 +13,7 @@ Report security issues privately to the project maintainer before opening a publ
 Include:
 
 - Affected command or workflow.
-- Minimal `tbuild.deps.lua` reproduction.
+- Minimal `tpkg.lua` reproduction.
 - Platform and toolchain profile.
 - Whether the issue involves source fetching, archive extraction, patch application, command execution, generated CMake files, or lockfile behavior.
 
@@ -29,4 +29,4 @@ Include:
 
 ## Manifest trust model
 
-`tbuild.deps.lua` is executable Lua configuration. Do not run manifests from untrusted repositories without review.
+`tpkg.lua` is executable Lua configuration. Do not run manifests from untrusted repositories without review.

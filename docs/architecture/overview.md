@@ -1,11 +1,11 @@
 # Architecture overview
 
-ToolkitBuild is organized around a narrow responsibility: restore dependencies for CMake projects and generate CMake integration files.
+Toolkit Package Manager is organized around a narrow responsibility: restore dependencies for CMake projects and generate CMake integration files.
 
 ## Main flow
 
 ```text
-tbuild.deps.lua
+tpkg.lua
   -> script loader
   -> build model
   -> dependency resolver

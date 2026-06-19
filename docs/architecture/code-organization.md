@@ -7,7 +7,7 @@ This document defines the intended source layout after the maintenance refactor.
 Current target structure:
 
 ```text
-src/tbuild/cli/
+src/tpkg/cli/
   CommandLine.hpp
   CommandLine.cpp
   CommandContext.hpp
@@ -35,7 +35,7 @@ src/tbuild/cli/
 Target structure:
 
 ```text
-src/tbuild/toolchain/
+src/tpkg/toolchain/
   ToolchainDetector.hpp
   ToolchainDetector.cpp
   ToolchainProbe.hpp
@@ -52,7 +52,7 @@ Split by platform because environment variables, SDK paths, compiler families, a
 Target structure:
 
 ```text
-src/tbuild/resolve/
+src/tpkg/resolve/
   DependencyResolver.hpp
   DependencyResolver.cpp
   DependencyGraph.hpp
@@ -74,7 +74,7 @@ src/tbuild/resolve/
 Target structure:
 
 ```text
-src/tbuild/script/
+src/tpkg/script/
   LuaBindings.hpp
   LuaBindings.cpp
   LuaValueReader.hpp
@@ -96,7 +96,7 @@ src/tbuild/script/
 Target structure:
 
 ```text
-src/tbuild/package/
+src/tpkg/package/
   PackageBuilderUtil.hpp
   PackageBuilderUtil.cpp
   BuildVariableExpander.hpp

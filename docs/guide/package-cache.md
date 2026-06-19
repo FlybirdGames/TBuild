@@ -1,15 +1,15 @@
 # Package cache
 
-ToolkitBuild stores dependency state under `.tbuild/`.
+Toolkit Package Manager stores dependency state under `.tpkg/`.
 
 ## Main directories
 
 ```text
-.tbuild/packages/          fetched dependency sources
-.tbuild/build-packages/    dependency build workspaces
-.tbuild/artifacts/         exported dependency artifacts
-.tbuild/generated/cmake/   generated CMake integration files
-.tbuild/toolchains/        detected toolchain cache
+.tpkg/packages/          fetched dependency sources
+.tpkg/build-packages/    dependency build workspaces
+.tpkg/artifacts/         exported dependency artifacts
+.tpkg/generated/cmake/   generated CMake integration files
+.tpkg/toolchains/        detected toolchain cache
 ```
 
 ## Artifact identity
@@ -19,8 +19,8 @@ Artifact identity is derived from dependency source state and build-relevant con
 ## Inspect packages
 
 ```bash
-tbuild packages
-tbuild packages --verbose
+tpkg packages
+tpkg packages --verbose
 ```
 
 ## Garbage collect unused artifacts
@@ -28,17 +28,17 @@ tbuild packages --verbose
 Dry run:
 
 ```bash
-tbuild packages gc
+tpkg packages gc
 ```
 
 Apply:
 
 ```bash
-tbuild packages gc --apply
+tpkg packages gc --apply
 ```
 
 Options:
 
 ```bash
-tbuild packages gc --package fmt --builds --sources
+tpkg packages gc --package fmt --builds --sources
 ```

@@ -1,10 +1,10 @@
 # Transitive Dependencies
 
-ToolkitBuild automatically resolves and builds transitive dependencies, eliminating the need to manually declare every dependency in your project.
+Toolkit Package Manager automatically resolves and builds transitive dependencies, eliminating the need to manually declare every dependency in your project.
 
 ## Overview
 
-When a package declares its own dependencies, ToolkitBuild will automatically fetch, build, and make them available to your project. This creates a clean dependency tree where each package is responsible for declaring what it needs.
+When a package declares its own dependencies, Toolkit Package Manager will automatically fetch, build, and make them available to your project. This creates a clean dependency tree where each package is responsible for declaring what it needs.
 
 ## Usage
 
@@ -33,7 +33,7 @@ require("png", {
 })
 ```
 
-In this example, when you depend on `opencv`, ToolkitBuild will automatically:
+In this example, when you depend on `opencv`, Toolkit Package Manager will automatically:
 1. Resolve all transitive dependencies (`zlib`, `jpeg`, `png`)
 2. Build them in the correct order (dependencies first)
 3. Make them available to `opencv` during its build
@@ -41,10 +41,10 @@ In this example, when you depend on `opencv`, ToolkitBuild will automatically:
 ## Features
 
 ### Automatic Resolution
-ToolkitBuild recursively walks the dependency tree and collects all required packages.
+Toolkit Package Manager recursively walks the dependency tree and collects all required packages.
 
 ### Circular Dependency Detection
-If a circular dependency is detected, ToolkitBuild will report an error:
+If a circular dependency is detected, Toolkit Package Manager will report an error:
 
 ```
 error: circular dependency detected: packageA
@@ -61,7 +61,7 @@ If multiple packages depend on the same library, it is only built once and share
 Use the `tree` command to visualize your dependency tree:
 
 ```bash
-tbuild tree
+tpkg tree
 ```
 
 Output:
@@ -80,7 +80,7 @@ my-project
 
 2. **Be specific about versions**: Use specific tags or commits to ensure reproducible builds.
 
-3. **Document transitive dependencies**: While ToolkitBuild handles them automatically, document why a package needs its dependencies for future maintainers.
+3. **Document transitive dependencies**: While Toolkit Package Manager handles them automatically, document why a package needs its dependencies for future maintainers.
 
 ## Error Handling
 
@@ -92,7 +92,7 @@ If a transitive dependency is declared but not found:
 error: transitive dependency not found: zlib (required by opencv)
 ```
 
-**Solution**: Add the missing dependency to your `tbuild.deps.lua`.
+**Solution**: Add the missing dependency to your `tpkg.lua`.
 
 ### Circular Dependencies
 
@@ -107,7 +107,7 @@ error: circular dependency detected: packageA
 
 ## Comparison with Other Tools
 
-| Feature | ToolkitBuild | vcpkg | Conan |
+| Feature | Toolkit Package Manager | vcpkg | Conan |
 |---------|--------------|-------|-------|
 | Auto-resolve transitive deps | ✅ | ✅ | ✅ |
 | Circular dep detection | ✅ | ✅ | ✅ |
@@ -128,4 +128,4 @@ error: circular dependency detected: packageA
 
 ### Lock File
 
-Transitive dependencies are recorded in `tbuild.lock.toml` along with their exact versions (commits), ensuring reproducible builds across machines.
+Transitive dependencies are recorded in `tpkg.lock.toml` along with their exact versions (commits), ensuring reproducible builds across machines.

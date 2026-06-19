@@ -1,3 +1,8 @@
+<!--
+ * @Author: cubevlmu khfahqp@gmail.com
+ * @LastEditors: cubevlmu khfahqp@gmail.com
+ * Copyright (c) 2026 by FlybirdGames, All Rights Reserved. 
+-->
 # Agent guide
 
 This repository may be modified by coding agents. Agents must follow these rules.
@@ -12,7 +17,7 @@ This repository may be modified by coding agents. Agents must follow these rules
 - Do not change lockfile format.
 - Do not change artifact ID generation.
 - Do not change cache layout.
-- Do not turn ToolkitBuild into a general build system.
+- Do not turn Toolkit Package Manager into a general build system.
 
 ## Preferred workflow
 

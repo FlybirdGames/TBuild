@@ -9,7 +9,7 @@ param(
 )
 
 # Source-level and dependency-export smoke script.
-# By default this configures and builds the tbuild executable before using it.
+# By default this configures and builds the tpkg executable before using it.
 # Pass -SkipBuild only when an existing executable is already present under
 # -BuildDir; restore/generate still run and may build dependency packages.
 
@@ -40,9 +40,9 @@ function Assert-CMakePackageExport {
         [string]$Root
     )
 
-    $generated = Join-Path $Root ".tbuild/generated/cmake"
-    $config = Join-Path $generated "tbuildConfig.cmake"
-    $targets = Join-Path $generated "tbuildTargets.cmake"
+    $generated = Join-Path $Root ".tpkg/generated/cmake"
+    $config = Join-Path $generated "tpkgConfig.cmake"
+    $targets = Join-Path $generated "tpkgTargets.cmake"
     if (-not (Test-Path $config)) {
         throw "missing generated CMake package config: $config"
     }
@@ -52,11 +52,11 @@ function Assert-CMakePackageExport {
 
     $configText = Get-Content $config -Raw
     $targetsText = Get-Content $targets -Raw
-    if ($configText -notmatch "TBUILD_TOOLCHAIN_ID" -or $configText -notmatch "TBUILD_COMPILER_KIND") {
-        throw "generated config is missing tbuild ABI metadata"
+    if ($configText -notmatch "TPKG_TOOLCHAIN_ID" -or $configText -notmatch "TPKG_COMPILER_KIND") {
+        throw "generated config is missing tpkg ABI metadata"
     }
-    if ($targetsText -notmatch "add_library\(tbuild::") {
-        throw "generated targets do not define tbuild:: imported targets"
+    if ($targetsText -notmatch "add_library\(tpkg::") {
+        throw "generated targets do not define tpkg:: imported targets"
     }
     if ($targetsText -match "INTERFACE_LINK_DIRECTORIES") {
         throw "generated targets must not rely on INTERFACE_LINK_DIRECTORIES"
@@ -77,20 +77,20 @@ try {
         Invoke-Checked cmake --build $BuildDir
     }
 
-    $tbuild = Join-Path $repo "$BuildDir/tbuild.exe"
-    if (-not (Test-Path $tbuild)) {
-        $tbuild = Join-Path $repo "$BuildDir/$BuildType/tbuild.exe"
+    $tpkg = Join-Path $repo "$BuildDir/tpkg.exe"
+    if (-not (Test-Path $tpkg)) {
+        $tpkg = Join-Path $repo "$BuildDir/$BuildType/tpkg.exe"
     }
-    if (-not (Test-Path $tbuild)) {
-        throw "tbuild executable was not found under '$BuildDir'"
+    if (-not (Test-Path $tpkg)) {
+        throw "tpkg executable was not found under '$BuildDir'"
     }
 
-    Invoke-Checked $tbuild --version
-    Invoke-Checked $tbuild --root examples/cmake-consumer sdk select $Toolchain
-    Invoke-Checked $tbuild --root examples/cmake-consumer deps
-    Invoke-Checked $tbuild --root examples/cmake-consumer restore --config $Config
-    Invoke-Checked $tbuild --root examples/cmake-consumer generate --config $Config
-    Invoke-Checked $tbuild --root examples/cmake-consumer packages --verbose
+    Invoke-Checked $tpkg --version
+    Invoke-Checked $tpkg --root examples/cmake-consumer sdk select $Toolchain
+    Invoke-Checked $tpkg --root examples/cmake-consumer deps
+    Invoke-Checked $tpkg --root examples/cmake-consumer restore --config $Config
+    Invoke-Checked $tpkg --root examples/cmake-consumer generate --config $Config
+    Invoke-Checked $tpkg --root examples/cmake-consumer packages --verbose
     Assert-CMakePackageExport -Root (Join-Path $repo "examples/cmake-consumer")
 }
 finally {

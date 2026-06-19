@@ -1,10 +1,15 @@
+<!--
+ * @Author: cubevlmu khfahqp@gmail.com
+ * @LastEditors: cubevlmu khfahqp@gmail.com
+ * Copyright (c) 2026 by FlybirdGames, All Rights Reserved. 
+-->
 # Basic workflow
 
-A normal ToolkitBuild workflow has four steps.
+A normal Toolkit Package Manager workflow has four steps.
 
 ## 1. Write the manifest
 
-Create `tbuild.deps.lua` in the CMake project root.
+Create `tpkg.lua` in the CMake project root.
 
 ```lua
 package("MyProject")
@@ -28,25 +33,25 @@ require("fmt", {
 ## 2. Detect or select a toolchain
 
 ```bash
-tbuild sdk detect
-tbuild sdk list
-tbuild sdk select windows-msvc-x64
+tpkg sdk detect
+tpkg sdk list
+tpkg sdk select windows-msvc-x64
 ```
 
-The selected toolchain is stored in local `.tbuild` state and should not be committed.
+The selected toolchain is stored in local `.tpkg` state and should not be committed.
 
 ## 3. Restore dependencies
 
 ```bash
-tbuild restore --config debug
+tpkg restore --config debug
 ```
 
-This fetches sources, builds dependency packages if needed, exports artifacts, and updates `tbuild.lock.toml`.
+This fetches sources, builds dependency packages if needed, exports artifacts, and updates `tpkg.lock.toml`.
 
 ## 4. Generate CMake files
 
 ```bash
-tbuild generate --config debug
+tpkg generate --config debug
 ```
 
 Then include the generated file from your CMake project.
@@ -56,13 +61,13 @@ Then include the generated file from your CMake project.
 Commit:
 
 ```text
-tbuild.deps.lua
-tbuild.lock.toml
+tpkg.lua
+tpkg.lock.toml
 docs explaining required toolchains
 ```
 
 Ignore:
 
 ```text
-.tbuild/
+.tpkg/
 ```
