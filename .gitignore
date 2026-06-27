@@ -4,6 +4,7 @@ tpkg.lock.toml
 
 # Build output
 build/
+build-*/
 out/
 cmake-build-*/
 

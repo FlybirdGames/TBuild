@@ -289,21 +289,7 @@ endif()
             targets << "endif()\n\n";
             targets << "# " << package.name << "\n";
 
-            // Use target_include_directories instead of set_property to avoid SYSTEM flag
-            if (!package.includeDirs.empty())
-            {
-                targets << "target_include_directories(" << target << " INTERFACE\n";
-                for (const auto &dir : package.includeDirs)
-                {
-                    targets << "    " << cmakePath(dir) << "\n";
-                }
-                targets << ")\n\n";
-
-                // Force non-SYSTEM treatment by explicitly setting INTERFACE_SYSTEM_INCLUDE_DIRECTORIES
-                targets << "set_target_properties(" << target << " PROPERTIES\n";
-                targets << "    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES \"\"\n";
-                targets << ")\n\n";
-            }
+            writePathProperty(targets, target, "INTERFACE_INCLUDE_DIRECTORIES", package.includeDirs);
 
             // Only export defines if explicitly requested
             if (package.exportDefines)

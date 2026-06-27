@@ -23,6 +23,8 @@ namespace toolkit
         replace(value, "$(source)", context.sourceDir.string());
         replace(value, "$(build)", context.buildDir.string());
         replace(value, "$(artifact)", context.artifactDir.string());
+        replace(value, "$(workspace)", context.workspaceRoot.string());
+        replace(value, "{workspace}", context.workspaceRoot.string());
         replace(value, "$(package)", context.packageName);
         replace(value, "$(config)", context.config);
         replace(value, "$(platform)", context.platform);

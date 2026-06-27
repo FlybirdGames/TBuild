@@ -44,9 +44,7 @@ namespace toolkit
                                        PackageArtifact &artifact,
                                        DiagnosticSink &diagnostics) const
     {
-        (void)workspaceRoot;
         (void)preferredToolchain;
-        (void)config;
         if (!options.runExport)
         {
             diagnostics.info("prebuilt package has no build stage: " + dependency.name);
@@ -73,6 +71,7 @@ namespace toolkit
         auto requested = dependency.artifacts;
         requested.mode = "copy";
         BuildUtil::Context context{sourceDir, artifactDir, artifactDir, dependency.name, config, {}, {}};
+        context.workspaceRoot = workspaceRoot;
         if (!BuildUtil::materialize(context, requested, artifact.artifacts, diagnostics))
         {
             return false;

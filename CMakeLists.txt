@@ -4,6 +4,8 @@ include(cmake/ToolkitPkgVcpkg.cmake)
 
 project(ToolkitPkg VERSION 0.1.1 LANGUAGES C CXX)
 
+include(GNUInstallDirs)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)

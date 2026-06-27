@@ -61,7 +61,9 @@ add_executable(tpkg "${CMAKE_CURRENT_SOURCE_DIR}/src/tpkg/main.cpp")
 target_link_libraries(tpkg PRIVATE tpkg_core)
 set_target_properties(tpkg PROPERTIES OUTPUT_NAME tpkg)
 
-install(TARGETS tpkg RUNTIME DESTINATION bin)
+install(TARGETS tpkg
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+)
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/src" FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/tpkg/main.cpp"

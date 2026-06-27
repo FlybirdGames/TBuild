@@ -74,9 +74,9 @@ namespace toolkit
         }
         if (platform == "macos" || platform == "darwin")
         {
-            return {"lib" + library + ".a", "lib" + library + ".dylib", library};
+            return {"lib" + library + ".a", "lib" + library + ".dylib", library + ".lib", "lib" + library + ".lib", library};
         }
-        return {"lib" + library + ".a", "lib" + library + ".so", library};
+        return {"lib" + library + ".a", "lib" + library + ".so", library + ".lib", "lib" + library + ".lib", library};
     }
 
     bool ArtifactCheck::libs(const BuildUtil::Context &context,

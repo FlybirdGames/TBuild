@@ -109,9 +109,10 @@ TEST(PackageBuilderUtilTests, ExpandsCustomCommandVariables) {
     };
     context.cc = "clang-cl";
     context.archiver = "llvm-lib";
+    context.workspaceRoot = "W:/Project";
     EXPECT_EQ(
-        toolkit::BuildUtil::expand("$(cc) install.py --prefix=$(artifact) --name=$(package) --cfg=$(config) --ar=$(archiver)", context),
-        "clang-cl install.py --prefix=A:/Pkg --name=Pkg --cfg=Debug --ar=llvm-lib");
+        toolkit::BuildUtil::expand("$(cc) install.py --prefix=$(artifact) --name=$(package) --cfg=$(config) --ar=$(archiver) --ws={workspace} --root=$(workspace)", context),
+        "clang-cl install.py --prefix=A:/Pkg --name=Pkg --cfg=Debug --ar=llvm-lib --ws=W:/Project --root=W:/Project");
 }
 
 TEST(PackageBuilderUtilTests, CopiesArtifactEntriesAndKeepsExportPathsRelative) {
