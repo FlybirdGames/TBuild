@@ -10,6 +10,7 @@
 #include "tpkg/core/Process.hpp"
 
 #include <filesystem>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
@@ -31,7 +32,14 @@ namespace toolkit
                                       const std::string &targetTriple,
                                       const std::string &deploymentTarget);
         static void addApple(std::vector<ToolchainProfile> &profiles);
-        static ToolchainProfile unixProfile();
+        static void addCompilerSearchPaths(ToolchainProfile &profile);
+        static void addIncludeSearchPaths(ToolchainProfile &profile);
+        static void addLibrarySearchPaths(ToolchainProfile &profile);
+        static void addFallbackSearchPaths(ToolchainProfile &profile);
+        static std::string dumpMachine(const ToolchainProfile &profile);
+        static ToolchainProfile unixProfile(const std::string &compilerKind,
+                                            const std::string &cCompiler,
+                                            const std::string &cxxCompiler);
     };
 
     std::filesystem::path UnixTc::xfind(const std::string &tool)
@@ -117,19 +125,155 @@ namespace toolkit
             }
         }
     }
-    ToolchainProfile UnixTc::unixProfile()
+    void UnixTc::addCompilerSearchPaths(ToolchainProfile &profile)
+    {
+        addIncludeSearchPaths(profile);
+        addLibrarySearchPaths(profile);
+        addFallbackSearchPaths(profile);
+    }
+
+    void UnixTc::addIncludeSearchPaths(ToolchainProfile &profile)
+    {
+        const auto compiler = profile.cxxCompiler.empty() ? profile.compiler : profile.cxxCompiler;
+        if (compiler.empty())
+        {
+            return;
+        }
+
+        const auto result = Process::run(compiler.string(), {"-E", "-x", "c++", "/dev/null", "-v"});
+        if (result.exitCode != 0)
+        {
+            return;
+        }
+
+        bool inSearchList = false;
+        std::stringstream stream(result.output);
+        std::string line;
+        while (std::getline(stream, line))
+        {
+            const auto trimmed = ToolProbe::trim(line);
+            if (trimmed == "#include <...> search starts here:")
+            {
+                inSearchList = true;
+                continue;
+            }
+            if (trimmed == "End of search list.")
+            {
+                break;
+            }
+            if (!inSearchList || trimmed.empty())
+            {
+                continue;
+            }
+
+            const auto marker = trimmed.find(" (framework directory)");
+            const auto path = marker == std::string::npos ? trimmed : trimmed.substr(0, marker);
+            ToolProbe::appendDir(profile.systemIncludeDirs, path);
+        }
+    }
+
+    void UnixTc::addLibrarySearchPaths(ToolchainProfile &profile)
+    {
+        const auto compiler = profile.cxxCompiler.empty() ? profile.compiler : profile.cxxCompiler;
+        if (compiler.empty())
+        {
+            return;
+        }
+
+        const auto result = Process::run(compiler.string(), {"--print-search-dirs"});
+        if (result.exitCode != 0)
+        {
+            return;
+        }
+
+        std::stringstream stream(result.output);
+        std::string line;
+        while (std::getline(stream, line))
+        {
+            const auto trimmed = ToolProbe::trim(line);
+            const auto prefix = std::string("libraries:");
+            if (trimmed.size() < prefix.size() || trimmed.substr(0, prefix.size()) != prefix)
+            {
+                continue;
+            }
+
+            auto value = ToolProbe::trim(trimmed.substr(prefix.size()));
+            if (!value.empty() && value.front() == '=')
+            {
+                value.erase(value.begin());
+            }
+            for (const auto &path : ToolProbe::paths(value))
+            {
+                ToolProbe::appendDir(profile.systemLibDirs, path);
+            }
+            return;
+        }
+    }
+
+    void UnixTc::addFallbackSearchPaths(ToolchainProfile &profile)
+    {
+        if (profile.systemIncludeDirs.empty())
+        {
+            ToolProbe::appendDir(profile.systemIncludeDirs, "/usr/local/include");
+            ToolProbe::appendDir(profile.systemIncludeDirs, "/usr/include");
+        }
+
+        if (!profile.systemLibDirs.empty())
+        {
+            return;
+        }
+
+        const auto machine = dumpMachine(profile);
+        if (!machine.empty())
+        {
+            ToolProbe::appendDir(profile.systemLibDirs, std::filesystem::path("/usr/local/lib") / machine);
+            ToolProbe::appendDir(profile.systemLibDirs, std::filesystem::path("/usr/lib") / machine);
+            ToolProbe::appendDir(profile.systemLibDirs, std::filesystem::path("/lib") / machine);
+        }
+        ToolProbe::appendDir(profile.systemLibDirs, "/usr/local/lib64");
+        ToolProbe::appendDir(profile.systemLibDirs, "/usr/local/lib");
+        ToolProbe::appendDir(profile.systemLibDirs, "/usr/lib64");
+        ToolProbe::appendDir(profile.systemLibDirs, "/usr/lib");
+        ToolProbe::appendDir(profile.systemLibDirs, "/lib64");
+        ToolProbe::appendDir(profile.systemLibDirs, "/lib");
+    }
+
+    std::string UnixTc::dumpMachine(const ToolchainProfile &profile)
+    {
+        const auto compiler = profile.cxxCompiler.empty() ? profile.compiler : profile.cxxCompiler;
+        if (compiler.empty())
+        {
+            return {};
+        }
+
+        const auto result = Process::run(compiler.string(), {"-dumpmachine"});
+        return result.exitCode == 0 ? ToolProbe::trim(result.output) : std::string{};
+    }
+
+    ToolchainProfile UnixTc::unixProfile(const std::string &compilerKind,
+                                         const std::string &cCompiler,
+                                         const std::string &cxxCompiler)
     {
         ToolchainProfile profile;
-        profile.id = Environment::hostPlatformName() + "-clang-x64";
+        profile.id = Environment::hostPlatformName() + "-" + compilerKind + "-x64";
         profile.platform = Environment::hostPlatformName();
-        profile.hostArch = "x64";
-        profile.targetArch = "x64";
-        profile.compilerKind = "clang";
+        profile.hostArch = ToolProbe::arch();
+        profile.targetArch = ToolProbe::arch();
+        profile.compilerKind = compilerKind;
         profile.sdkKind = "sysroot";
-        profile.compiler = findExecutableOnPath("clang");
-        profile.cxxCompiler = findExecutableOnPath("clang++");
-        profile.linker = profile.cxxCompiler;
+        profile.compiler = findExecutableOnPath(cCompiler);
+        profile.cxxCompiler = findExecutableOnPath(cxxCompiler);
+        profile.linker = profile.cxxCompiler.empty() ? profile.compiler : profile.cxxCompiler;
         profile.archiver = findExecutableOnPath("ar");
+        if (!profile.compiler.empty())
+        {
+            ToolProbe::appendDir(profile.binaryDirs, profile.compiler.parent_path());
+        }
+        if (!profile.cxxCompiler.empty())
+        {
+            ToolProbe::appendDir(profile.binaryDirs, profile.cxxCompiler.parent_path());
+        }
+        addCompilerSearchPaths(profile);
         ToolProbe::addTools(profile);
         ToolProbe::addPath(profile);
         ToolProbe::complete(profile);
@@ -138,10 +282,15 @@ namespace toolkit
 
     void UnixTc::add(std::vector<ToolchainProfile> &profiles)
     {
-        auto unix = unixProfile();
-        if (!unix.compiler.empty() || !unix.cxxCompiler.empty())
+        for (auto unix : {
+                 unixProfile("clang", "clang", "clang++"),
+                 unixProfile("gcc", "gcc", "g++"),
+             })
         {
-            profiles.push_back(std::move(unix));
+            if (!unix.compiler.empty() || !unix.cxxCompiler.empty())
+            {
+                profiles.push_back(std::move(unix));
+            }
         }
         addApple(profiles);
     }
